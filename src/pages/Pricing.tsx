@@ -1,15 +1,15 @@
 
 import { Layout } from "@/components/Layout";
-import { HeroSection } from "@/components/HeroSection";
 import { PricingSection } from "@/components/PricingSection";
 
-const Index = () => {
+const Pricing = () => {
   return (
     <Layout>
-      <HeroSection />
-      <PricingSection />
+      <div className="py-8">
+        <PricingSection />
+      </div>
     </Layout>
   );
 };
 
-export default Index;
+export default Pricing;
