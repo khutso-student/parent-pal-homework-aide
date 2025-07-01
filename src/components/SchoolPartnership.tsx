@@ -4,6 +4,21 @@ import { Card } from "@/components/ui/card";
 import { Users, BookOpen, BarChart3, Shield, Award, Zap } from "lucide-react";
 
 export const SchoolPartnership = () => {
+  const handleScheduleDemo = () => {
+    // In a real app, this would open a calendar booking widget or contact form
+    alert("Demo scheduling would open a calendar booking system or contact form!");
+  };
+
+  const handleContactSales = () => {
+    // In a real app, this would open a contact form or start a chat
+    alert("Contact sales would open a contact form or chat system!");
+  };
+
+  const handleDownloadBrochure = () => {
+    // In a real app, this would download a PDF brochure
+    alert("This would download a school partnership brochure PDF!");
+  };
+
   const benefits = [
     {
       icon: Users,
@@ -53,7 +68,7 @@ export const SchoolPartnership = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-warm-gradient text-white py-20">
+      <section className="bg-primary text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Partner with Homework Helper
@@ -61,7 +76,7 @@ export const SchoolPartnership = () => {
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
             Empower every family in your school community with AI-powered homework assistance
           </p>
-          <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50">
+          <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50" onClick={handleScheduleDemo}>
             Schedule a Demo
           </Button>
         </div>
@@ -83,7 +98,7 @@ export const SchoolPartnership = () => {
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
               return (
-                <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+                <Card key={index} className="p-6 hover:shadow-lg transition-shadow border">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
@@ -132,7 +147,7 @@ export const SchoolPartnership = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-8">
+              <Card key={index} className="p-8 border">
                 <blockquote className="text-lg text-foreground mb-4">
                   "{testimonial.quote}"
                 </blockquote>
@@ -154,7 +169,7 @@ export const SchoolPartnership = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gentle-gradient text-white">
+      <section className="py-16 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Learning?
@@ -163,10 +178,10 @@ export const SchoolPartnership = () => {
             Join hundreds of schools already using Homework Helper to support their students and families
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50">
+            <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50" onClick={handleScheduleDemo}>
               Request a Demo
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" onClick={handleDownloadBrochure}>
               Download Brochure
             </Button>
           </div>

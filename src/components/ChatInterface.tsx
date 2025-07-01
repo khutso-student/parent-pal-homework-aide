@@ -27,6 +27,28 @@ export const ChatInterface = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const generateAIResponse = (userMessage: string, hasImage: boolean = false) => {
+    // Generate different responses based on content
+    if (hasImage) {
+      return "I can see you've uploaded a homework problem! Let me analyze this step by step:\n\n**Step 1:** I can see this is a math problem involving [subject area]\n\n**Step 2:** The key information I notice is...\n\n**Step 3:** Here's how to solve it...\n\n**Final Answer:** [Solution]\n\n**Learning Tip:** Remember that [helpful tip for understanding the concept]!";
+    }
+    
+    if (userMessage.toLowerCase().includes('math')) {
+      return "Great math question! Let me break this down step by step:\n\n**Step 1:** First, let's identify what type of math problem this is.\n\n**Step 2:** Here's the approach we should take...\n\n**Step 3:** Let's work through the calculation...\n\n**Answer:** [Your solution here]\n\n**Learning tip:** Always double-check your work by substituting back into the original problem!";
+    }
+    
+    if (userMessage.toLowerCase().includes('science')) {
+      return "Excellent science question! Here's a clear explanation:\n\n**What's happening:** [Scientific concept explanation]\n\n**Why it works:** [Underlying principles]\n\n**Real-world example:** [Practical application]\n\n**Remember:** Science is all about observing patterns and understanding why things work the way they do!";
+    }
+    
+    if (userMessage.toLowerCase().includes('english') || userMessage.toLowerCase().includes('writing')) {
+      return "Great question about English/Writing! Here's how to approach this:\n\n**Structure:** [How to organize your thoughts]\n\n**Key points to include:** [Important elements]\n\n**Writing tip:** [Helpful advice]\n\n**Example:** [Sample sentence or paragraph]\n\nRemember, good writing comes from practice and clear thinking!";
+    }
+    
+    // Default response
+    return `I'd be happy to help you with that question! Based on what you've asked, here's my explanation:\n\n**Understanding the problem:** ${userMessage}\n\n**Step-by-step approach:**\n1. First, let's break down what we're being asked\n2. Then we'll identify the key information\n3. Finally, we'll work through the solution\n\n**Learning tip:** Don't hesitate to ask follow-up questions if anything isn't clear!`;
+  };
+
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
 
@@ -38,6 +60,7 @@ export const ChatInterface = () => {
     };
 
     setMessages(prev => [...prev, newMessage]);
+    const currentInput = inputText;
     setInputText("");
     setIsLoading(true);
 
@@ -46,34 +69,57 @@ export const ChatInterface = () => {
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: "I'd be happy to help you with that! To provide the most accurate explanation, I'll need to analyze your question. This will cost KES 5 for a detailed step-by-step solution. Would you like to proceed?",
+        content: generateAIResponse(currentInput),
         timestamp: new Date()
       };
       setMessages(prev => [...prev, aiResponse]);
       setIsLoading(false);
-      setShowPaymentModal(true);
     }, 1500);
   };
 
   const handleImageUpload = () => {
-    // In a real app, this would handle file upload
-    const imageMessage: Message = {
-      id: Date.now().toString(),
-      type: 'user',
-      content: "I've uploaded a homework problem image",
-      image: "/api/placeholder/300/200",
-      timestamp: new Date()
-    };
+    // Create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        // Create a preview URL for the image
+        const imageUrl = URL.createObjectURL(file);
+        
+        const imageMessage: Message = {
+          id: Date.now().toString(),
+          type: 'user',
+          content: "I've uploaded a homework problem image. Can you help me solve this?",
+          image: imageUrl,
+          timestamp: new Date()
+        };
 
-    setMessages(prev => [...prev, imageMessage]);
-    setShowPaymentModal(true);
+        setMessages(prev => [...prev, imageMessage]);
+        setIsLoading(true);
+
+        // Simulate AI response for image
+        setTimeout(() => {
+          const aiResponse: Message = {
+            id: (Date.now() + 1).toString(),
+            type: 'ai',
+            content: generateAIResponse("image uploaded", true),
+            timestamp: new Date()
+          };
+          setMessages(prev => [...prev, aiResponse]);
+          setIsLoading(false);
+        }, 2000);
+      }
+    };
+    fileInput.click();
   };
 
   const handlePaymentSuccess = () => {
     const aiResponse: Message = {
       id: Date.now().toString(),
       type: 'ai',
-      content: "Great! Here's a step-by-step solution:\n\n**Step 1:** First, identify what type of problem this is. In this case, it's a multiplication word problem.\n\n**Step 2:** Extract the key information: 'Sarah has 4 bags with 6 apples each'.\n\n**Step 3:** Set up the multiplication: 4 × 6\n\n**Step 4:** Calculate: 4 × 6 = 24\n\n**Answer:** Sarah has 24 apples in total.\n\n**Learning tip:** Word problems often have key phrases like 'each', 'total', or 'altogether' that tell us what operation to use!",
+      content: "Thank you for your payment! I'm now providing you with a detailed solution:\n\n**Complete Step-by-Step Solution:**\n\n**Step 1:** [Detailed explanation of the first step]\n\n**Step 2:** [Detailed explanation of the second step]\n\n**Step 3:** [Final calculation or conclusion]\n\n**Answer:** [Final answer with explanation]\n\n**Learning tip:** [Additional insight to help with similar problems]\n\n**Practice suggestion:** Try solving a similar problem to reinforce your understanding!",
       timestamp: new Date()
     };
     setMessages(prev => [...prev, aiResponse]);
@@ -88,7 +134,7 @@ export const ChatInterface = () => {
           <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
             <Card className={`max-w-xs sm:max-w-sm md:max-w-md p-4 ${
               message.type === 'user' 
-                ? 'bg-primary text-primary-foreground' 
+                ? 'bg-primary text-white' 
                 : 'bg-white border-2'
             }`}>
               {message.image && (
@@ -115,7 +161,7 @@ export const ChatInterface = () => {
       </div>
 
       {/* Input Area */}
-      <Card className="p-4 bg-white sticky bottom-4">
+      <Card className="p-4 bg-white sticky bottom-4 border">
         <div className="flex items-end space-x-2">
           <Button
             variant="outline"

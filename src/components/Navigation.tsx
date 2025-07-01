@@ -15,12 +15,17 @@ export const Navigation = () => {
     { name: "Schools", path: "/schools", icon: Book },
   ];
 
+  const handleSignIn = () => {
+    // For now, just show an alert - in a real app this would open a sign-in modal or redirect
+    alert("Sign in functionality will be implemented when you connect to Supabase for authentication!");
+  };
+
   return (
     <>
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center justify-between p-4 lg:px-8 bg-white shadow-sm border-b">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-warm-gradient rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
             <Book className="w-6 h-6 text-white" />
           </div>
           <span className="text-xl font-bold text-foreground">Homework Helper</span>
@@ -38,7 +43,7 @@ export const Navigation = () => {
               {item.name}
             </Link>
           ))}
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={handleSignIn}>
             <User className="w-4 h-4 mr-2" />
             Sign In
           </Button>
@@ -49,7 +54,7 @@ export const Navigation = () => {
       <nav className="md:hidden bg-white shadow-sm border-b">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-warm-gradient rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Book className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-bold text-foreground">Homework Helper</span>
@@ -80,7 +85,7 @@ export const Navigation = () => {
               </Link>
             ))}
             <div className="pt-2 border-t mt-2">
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="outline" size="sm" className="w-full" onClick={handleSignIn}>
                 <User className="w-4 h-4 mr-2" />
                 Sign In
               </Button>

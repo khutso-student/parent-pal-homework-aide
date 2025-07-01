@@ -3,9 +3,23 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check, Star, Users, Crown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const PricingSection = () => {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
+
+  const handlePlanSelection = (planName: string) => {
+    if (planName === "Pay Per Question") {
+      // Redirect to chat for pay-per-question
+      window.location.href = "/chat";
+    } else if (planName === "Family Plan") {
+      // For now, show alert - would typically open subscription flow
+      alert("Family Plan subscription will be available when you integrate payment processing!");
+    } else if (planName === "School Partnership") {
+      // Redirect to schools page
+      window.location.href = "/schools";
+    }
+  };
 
   const plans = [
     {
@@ -42,7 +56,7 @@ export const PricingSection = () => {
       ],
       buttonText: "Start Free Trial",
       popular: true,
-      color: "bg-warm-gradient"
+      color: "bg-primary"
     },
     {
       name: "School Partnership",
@@ -61,7 +75,7 @@ export const PricingSection = () => {
       ],
       buttonText: "Contact Sales",
       popular: false,
-      color: "bg-gentle-gradient"
+      color: "bg-primary"
     }
   ];
 
@@ -82,7 +96,7 @@ export const PricingSection = () => {
               onClick={() => setBillingPeriod('monthly')}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                 billingPeriod === 'monthly'
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-primary text-white'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -92,12 +106,12 @@ export const PricingSection = () => {
               onClick={() => setBillingPeriod('yearly')}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                 billingPeriod === 'yearly'
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-primary text-white'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               Yearly
-              <span className="ml-2 text-xs bg-accent text-accent-foreground px-2 py-1 rounded-full">
+              <span className="ml-2 text-xs bg-primary text-white px-2 py-1 rounded-full">
                 Save 17%
               </span>
             </button>
@@ -114,7 +128,7 @@ export const PricingSection = () => {
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium">
+                    <span className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
                       Most Popular
                     </span>
                   </div>
@@ -135,15 +149,16 @@ export const PricingSection = () => {
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center">
-                      <Check className="w-5 h-5 text-accent mr-3 shrink-0" />
+                      <Check className="w-5 h-5 text-primary mr-3 shrink-0" />
                       <span className="text-sm text-foreground">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
-                  className={`w-full ${plan.popular ? plan.color + ' text-white' : 'border-2 border-primary'}`}
+                  className={`w-full ${plan.popular ? 'bg-primary text-white hover:bg-primary/90' : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'}`}
                   variant={plan.popular ? 'default' : 'outline'}
+                  onClick={() => handlePlanSelection(plan.name)}
                 >
                   {plan.buttonText}
                 </Button>
@@ -156,7 +171,7 @@ export const PricingSection = () => {
           <p className="text-muted-foreground mb-4">
             Have questions about our pricing? We're here to help!
           </p>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => alert("Contact support would open a contact form or chat!")}>
             Contact Support
           </Button>
         </div>
