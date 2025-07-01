@@ -66,9 +66,9 @@ export const SchoolPartnership = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="bg-primary text-white py-20">
+      <section className="bg-primary text-black py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             Partner with Homework Helper
@@ -76,20 +76,20 @@ export const SchoolPartnership = () => {
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
             Empower every family in your school community with AI-powered homework assistance
           </p>
-          <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50" onClick={handleScheduleDemo}>
+          <Button size="lg" variant="outline" className="bg-black text-primary border-black hover:bg-gray-900" onClick={handleScheduleDemo}>
             Schedule a Demo
           </Button>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Why Schools Choose Us
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Transform homework from a struggle into a learning opportunity for every student
             </p>
           </div>
@@ -98,14 +98,14 @@ export const SchoolPartnership = () => {
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
               return (
-                <Card key={index} className="p-6 hover:shadow-lg transition-shadow border">
+                <Card key={index} className="p-6 hover:shadow-lg transition-shadow bg-gray-900 border-primary">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
+                  <h3 className="text-lg font-semibold text-white mb-2">
                     {benefit.title}
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-300">
                     {benefit.description}
                   </p>
                 </Card>
@@ -116,50 +116,50 @@ export const SchoolPartnership = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-primary mb-2">500+</div>
-              <div className="text-muted-foreground">Schools Served</div>
+              <div className="text-gray-300">Schools Served</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-primary mb-2">50K+</div>
-              <div className="text-muted-foreground">Students Helped</div>
+              <div className="text-gray-300">Students Helped</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-primary mb-2">95%</div>
-              <div className="text-muted-foreground">Parent Satisfaction</div>
+              <div className="text-gray-300">Parent Satisfaction</div>
             </div>
             <div>
               <div className="text-4xl font-bold text-primary mb-2">40%</div>
-              <div className="text-muted-foreground">Grade Improvement</div>
+              <div className="text-gray-300">Grade Improvement</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-16">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
+          <h2 className="text-3xl font-bold text-center text-white mb-12">
             What Educators Say
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-8 border">
-                <blockquote className="text-lg text-foreground mb-4">
+              <Card key={index} className="p-8 bg-gray-900 border-primary">
+                <blockquote className="text-lg text-white mb-4">
                   "{testimonial.quote}"
                 </blockquote>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mr-4">
-                    <span className="text-white font-bold">
+                    <span className="text-black font-bold">
                       {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <div className="font-semibold text-foreground">{testimonial.name}</div>
-                    <div className="text-muted-foreground">{testimonial.role}</div>
+                    <div className="font-semibold text-white">{testimonial.name}</div>
+                    <div className="text-gray-300">{testimonial.role}</div>
                   </div>
                 </div>
               </Card>
@@ -169,7 +169,7 @@ export const SchoolPartnership = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary text-white">
+      <section className="py-16 bg-primary text-black">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Learning?
@@ -178,10 +178,10 @@ export const SchoolPartnership = () => {
             Join hundreds of schools already using Homework Helper to support their students and families
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="outline" className="bg-white text-primary hover:bg-gray-50" onClick={handleScheduleDemo}>
+            <Button size="lg" variant="outline" className="bg-black text-primary border-black hover:bg-gray-900" onClick={handleScheduleDemo}>
               Request a Demo
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10" onClick={handleDownloadBrochure}>
+            <Button size="lg" variant="outline" className="border-black text-black hover:bg-black/10" onClick={handleDownloadBrochure}>
               Download Brochure
             </Button>
           </div>
