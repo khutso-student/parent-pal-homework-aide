@@ -10,13 +10,10 @@ export const PricingSection = () => {
 
   const handlePlanSelection = (planName: string) => {
     if (planName === "Pay Per Question") {
-      // Redirect to chat for pay-per-question
       window.location.href = "/chat";
     } else if (planName === "Family Plan") {
-      // For now, show alert - would typically open subscription flow
       alert("Family Plan subscription will be available when you integrate payment processing!");
     } else if (planName === "School Partnership") {
-      // Redirect to schools page
       window.location.href = "/schools";
     }
   };
@@ -80,24 +77,24 @@ export const PricingSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-16 bg-black">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Choose Your Perfect Plan
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
             From quick answers to comprehensive family support, we have the right solution for every parent
           </p>
 
           {/* Billing Toggle */}
-          <div className="inline-flex bg-white rounded-full p-1 border">
+          <div className="inline-flex bg-gray-900 rounded-full p-1 border border-primary">
             <button
               onClick={() => setBillingPeriod('monthly')}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                 billingPeriod === 'monthly'
-                  ? 'bg-primary text-white'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-primary text-black'
+                  : 'text-white hover:text-primary'
               }`}
             >
               Monthly
@@ -106,12 +103,12 @@ export const PricingSection = () => {
               onClick={() => setBillingPeriod('yearly')}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
                 billingPeriod === 'yearly'
-                  ? 'bg-primary text-white'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-primary text-black'
+                  : 'text-white hover:text-primary'
               }`}
             >
               Yearly
-              <span className="ml-2 text-xs bg-primary text-white px-2 py-1 rounded-full">
+              <span className="ml-2 text-xs bg-primary text-black px-2 py-1 rounded-full">
                 Save 17%
               </span>
             </button>
@@ -124,11 +121,11 @@ export const PricingSection = () => {
             return (
               <Card
                 key={plan.name}
-                className={`relative p-8 ${plan.popular ? 'border-primary border-2 scale-105' : 'border-border'} hover:shadow-lg transition-all duration-300`}
+                className={`relative p-8 bg-gray-900 ${plan.popular ? 'border-primary border-2 scale-105' : 'border-primary'} hover:shadow-lg transition-all duration-300`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium">
+                    <span className="bg-primary text-black px-4 py-2 rounded-full text-sm font-medium">
                       Most Popular
                     </span>
                   </div>
@@ -136,13 +133,13 @@ export const PricingSection = () => {
 
                 <div className="text-center mb-8">
                   <div className={`w-16 h-16 ${plan.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-                    <Icon className="w-8 h-8 text-white" />
+                    <Icon className="w-8 h-8 text-black" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{plan.name}</h3>
-                  <p className="text-muted-foreground mb-4">{plan.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                  <p className="text-gray-300 mb-4">{plan.description}</p>
                   <div className="mb-2">
-                    <span className="text-3xl font-bold text-foreground">{plan.price}</span>
-                    <span className="text-muted-foreground ml-2">{plan.period}</span>
+                    <span className="text-3xl font-bold text-white">{plan.price}</span>
+                    <span className="text-gray-300 ml-2">{plan.period}</span>
                   </div>
                 </div>
 
@@ -150,13 +147,13 @@ export const PricingSection = () => {
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center">
                       <Check className="w-5 h-5 text-primary mr-3 shrink-0" />
-                      <span className="text-sm text-foreground">{feature}</span>
+                      <span className="text-sm text-white">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
-                  className={`w-full ${plan.popular ? 'bg-primary text-white hover:bg-primary/90' : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'}`}
+                  className={`w-full ${plan.popular ? 'bg-primary text-black hover:bg-primary/90' : 'border-2 border-primary text-white hover:bg-primary hover:text-black'}`}
                   variant={plan.popular ? 'default' : 'outline'}
                   onClick={() => handlePlanSelection(plan.name)}
                 >
@@ -168,10 +165,10 @@ export const PricingSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-4">
+          <p className="text-gray-300 mb-4">
             Have questions about our pricing? We're here to help!
           </p>
-          <Button variant="outline" onClick={() => alert("Contact support would open a contact form or chat!")}>
+          <Button variant="outline" className="border-primary text-white hover:bg-primary hover:text-black" onClick={() => alert("Contact support would open a contact form or chat!")}>
             Contact Support
           </Button>
         </div>
