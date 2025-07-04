@@ -43,20 +43,7 @@ export const useChat = () => {
         throw new Error('User not authenticated');
       }
 
-      // Store the question in the database
-      const { error: dbError } = await supabase
-        .from('questions')
-        .insert({
-          user_id: user.id,
-          question_text: content,
-          image_url: image || null,
-          parent_name: user.user_metadata?.parent_name || 'Anonymous'
-        });
-
-      if (dbError) {
-        console.error('Database error:', dbError);
-        // Continue with AI response even if DB insert fails
-      }
+      console.log('Sending message to AI function...');
 
       // Get AI response
       const { data, error } = await supabase.functions.invoke('chat-ai', {
@@ -67,7 +54,35 @@ export const useChat = () => {
         }
       });
 
-      if (error) throw error;
+      console.log('AI function response:', data, 'error:', error);
+
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error(`Function error: ${error.message}`);
+      }
+
+      if (!data || !data.response) {
+        console.error('Invalid response data:', data);
+        throw new Error('Invalid response from AI service');
+      }
+
+      // Store the question in the database (optional, don't fail if it doesn't work)
+      try {
+        const { error: dbError } = await supabase
+          .from('questions')
+          .insert({
+            user_id: user.id,
+            question_text: content,
+            image_url: image || null,
+            parent_name: user.user_metadata?.parent_name || 'Anonymous'
+          });
+
+        if (dbError) {
+          console.error('Database error (non-critical):', dbError);
+        }
+      } catch (dbError) {
+        console.error('Database insert failed (non-critical):', dbError);
+      }
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -89,7 +104,7 @@ export const useChat = () => {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'ai',
-        content: "I'm sorry, I'm having trouble responding right now. Please try again in a moment.",
+        content: "I'm sorry, I'm having trouble responding right now. Please check that your OpenAI API key is properly configured and try again in a moment.",
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
