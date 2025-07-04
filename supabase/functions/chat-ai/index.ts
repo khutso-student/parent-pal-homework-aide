@@ -22,10 +22,7 @@ serve(async (req) => {
       throw new Error('OpenAI API key not configured');
     }
 
-    // Create Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    console.log('Processing message:', message, 'hasImage:', hasImage, 'userId:', userId);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -64,21 +61,15 @@ Format your responses with clear sections using **bold** for headings when appro
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`OpenAI API error: ${response.status}`, errorText);
       throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
     const aiResponse = data.choices[0].message.content;
 
-    // Store the question and response in the database if user is authenticated
-    if (userId) {
-      await supabase.from('questions').insert({
-        user_id: userId,
-        question_text: message,
-        parent_name: 'Anonymous', // You can update this with actual parent name
-        created_at: new Date().toISOString()
-      });
-    }
+    console.log('AI Response generated successfully');
 
     return new Response(JSON.stringify({ response: aiResponse }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

@@ -39,11 +39,31 @@ export const useChat = () => {
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Store the question in the database
+      const { error: dbError } = await supabase
+        .from('questions')
+        .insert({
+          user_id: user.id,
+          question_text: content,
+          image_url: image || null,
+          parent_name: user.user_metadata?.parent_name || 'Anonymous'
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        // Continue with AI response even if DB insert fails
+      }
+
+      // Get AI response
       const { data, error } = await supabase.functions.invoke('chat-ai', {
         body: {
           message: content,
           hasImage: !!image,
-          userId: user?.id
+          userId: user.id
         }
       });
 
@@ -81,7 +101,12 @@ export const useChat = () => {
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const fileName = `${user?.id || 'anonymous'}/${Date.now()}-${file.name}`;
+      
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const fileName = `${user.id}/${Date.now()}-${file.name}`;
       
       const { data, error } = await supabase.storage
         .from('homework-images')
